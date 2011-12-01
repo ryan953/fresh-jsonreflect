@@ -12,4 +12,12 @@ requests into POST request for the FreshBooks API server to consume. The convers
 makes no assumptions about the request contents and will only wrap the request
 data with a <request method="XXX"> tag.
 
-See 
+See http://developers.freshbooks.com/ for more API help.
+
+
+
+To start the server install node.js and run:
+node index.js
+
+
+Using JSON instead of XML can reduce the response-size of a call by as much as 40%.
