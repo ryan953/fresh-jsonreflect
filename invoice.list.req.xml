@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<request method="invoice.list">
+	<page>1</page>
+	<!-- Number of results per page, default is 25 (Optional) -->
+	<per_page>10</per_page>
+	<!-- One of 'active', 'archived', 'deleted' (Optional)-->
+	<folder>active</folder>
+</request>
+
