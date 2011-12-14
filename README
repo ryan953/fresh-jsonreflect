@@ -17,7 +17,7 @@ See http://developers.freshbooks.com/ for more API help.
 
 
 To start the server install node.js and run:
-node index.js
+node server.js
 
 
 Using JSON instead of XML can reduce the response-size of a call by as much as 40%.
