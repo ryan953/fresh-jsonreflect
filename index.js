@@ -1,9 +1,9 @@
 "use strict";
 
-var server = require("./server");
+var listener = require("./listener");
 var fb = require("./fbrequest");
 
-server.listen(fb.API, fb.exec);
+listener.listen(fb.API, fb.exec);
 
 
 var conv = require('./converter').Converter;
