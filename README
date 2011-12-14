@@ -1,7 +1,7 @@
 If my FreshBooks subdomain is https://ryan953.freshbooks.com and I usually make
 API requests to https://ryan953.freshbooks.com/api/2.1/xml-in with the token 
 <private_token> then from your local machine:
-curl http://localhost:8888/invoice/list -u "ryan953:f08dede479093aed3cb5b6e80b52dc53" -d "{\"status\":\"paid\"}"
+curl http://localhost:8888/invoice/list -u "ryan953:<private_token>" -d "{\"status\":\"paid\"}"
 
 or 
 
