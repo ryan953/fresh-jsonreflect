@@ -21,3 +21,7 @@ node server.js
 
 
 Using JSON instead of XML can reduce the response-size of a call by as much as 40%.
+
+
+
+Try http://nodester.com/ for free NodeJS hosting.
