@@ -1,0 +1,32 @@
+{
+  "name": "fresh-jsonreflect",
+  "version": "0.1.0",
+  "description": "A Node.js wrapper for the FreshBooks XML API that lets you work in JSON instead",
+  "author": "Ryan Albrecht <ryan@ryanalbrecht.ca>",
+  "contributors": [
+    {
+      "name": "Eddie Ringle",
+      "email": "eddie@eringle.net"
+    }
+  ],
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryan953/fresh-jsonreflect.git"
+  },
+  "keywords": [
+    "freshbooks",
+    "api",
+    "xml",
+    "json"
+  ],
+  "dependencies": {
+    "xml2js": "0.2.x",
+    "xmlbuilder": "0.4.x"
+  },
+  "engines": {
+    "node": ">=0.8"
+  }
+}
