@@ -12,7 +12,7 @@ function listen(API, exec) {
 		var cmd = new API(input.auth.username, input.auth.password);
 		
 		function finish(statusCode, xml) {
-			response.writeHead(200,{'Content-Type':'text/plain'});
+			response.writeHead(200,{'Content-Type':'application/json'});
 			response.write(xml);
 			response.end();
 		}
