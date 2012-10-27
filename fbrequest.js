@@ -2,10 +2,11 @@
 
 var http = require("https");
 
+var path = require('path');
 var util = require('util');
 var event = require('events');
 var endpoint = "%s.freshbooks.com";
-var path = '/api/2.1/xml-in';
+var entry_point = '/api/2.1/xml-in';
 var Converter = require('./converter');
 
 function Request(subdomain, token) {
@@ -19,15 +20,18 @@ function Request(subdomain, token) {
 			domain = util.format(endpoint, this.subdomain),
 			conv = new Converter.Converter(),
 			request = conv.stripAttributes(body);
-		
-		request['@'] = {method: 'invoice.list'};
-		
+
+		/* Convert requested path into an API Method (e.g., /invoice/list to invoice.list) */
+		var apiMethod = path.normalize(action).replace(/^\/|\/$/g, '').replace(/\//g, '.');
+
+		request['@'] = {method: apiMethod};
+
 		conv.on('toXML', function(err, xml) {
 			var result = '';
 			var options = {
 				hostname: domain,
 				port: 443,
-				path: path,
+				path: entry_point,
 				method: 'POST',
 				auth: util.format("%s:x", self.token),
 				headers: {
