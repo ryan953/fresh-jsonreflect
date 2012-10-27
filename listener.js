@@ -23,7 +23,15 @@ function listen(API, exec) {
 				body += data;
 			});
 			request.on('end', function () {
-				cmd.exec(input.pathname, JSON.parse(body), finish);
+				try {
+					var parsed = (body === "") ? body : JSON.parse(body);
+					cmd.exec(input.pathname, parsed, finish);
+				} catch (e) {
+					/* Catch SyntaxErrors and return 400 if one occurs */
+					if (e instanceof SyntaxError) {
+						finish(400, "{ \"error\": \"Bad syntax\" }");
+					}
+				}
 			});
 		} else if (request.method == 'GET') {
 			request.on('end', function() {
