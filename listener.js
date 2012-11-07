@@ -9,7 +9,14 @@ function listen(API, exec) {
 	function onRequest(request, response) {
 		var input = http_request.parse(request);
 
-		var cmd = new API(input.auth.username, input.auth.password);
+		/* If no authentication details could be found, respond with 401 */
+		if (input.auth == null || typeof(input.auth) == 'undefined') {
+			response.writeHead(401);
+			response.end();
+			return;
+		}
+
+		var cmd = new API(input.auth, input.pathname);
 		
 		function finish(statusCode, xml) {
 			response.writeHead(statusCode, {'Content-Type':'application/json'});
