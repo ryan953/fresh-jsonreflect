@@ -9,20 +9,25 @@ var endpoint = "%s.freshbooks.com";
 var entry_point = '/api/2.1/xml-in';
 var Converter = require('./converter');
 
-function Request(subdomain, token) {
-	this.subdomain = subdomain;
-	this.token = token;
+function Request(auth, pathname) {
+	this.authType = auth.type;
+	if (auth.type === "Basic") {
+		this.subdomain = auth.username;
+		this.token = auth.password;
+	} else if (auth.type == "OAuth") {
+		this.subdomain = auth.domain;
+		this.authHeader = auth.header;
+	}
 	this.emitter = event.EventEmitter;
 }
 (function(klass) {
 	klass.prototype.exec = function(action, body, finish) {
+		var pathtrail = path.normalize(action).replace(/^\/|\/$/g, '').split('/');
+		var apiMethod = pathtrail.join('.');
 		var self = this,
 			domain = util.format(endpoint, this.subdomain),
 			conv = new Converter.Converter(),
 			request = conv.stripAttributes(body);
-
-		/* Convert requested path into an API Method (e.g., /invoice/list to invoice.list) */
-		var apiMethod = path.normalize(action).replace(/^\/|\/$/g, '').replace(/\//g, '.');
 
 		request['@'] = {method: apiMethod};
 
@@ -33,11 +38,15 @@ function Request(subdomain, token) {
 				port: 443,
 				path: entry_point,
 				method: 'POST',
-				auth: util.format("%s:x", self.token),
 				headers: {
 					'Content-length': xml.length
 				}
 			};
+			if (self.authType == "Basic") {
+				options.auth = util.format("%s:x", self.token);
+			} else if (self.authType == "OAuth") {
+				options.headers['Authorization'] = self.authHeader;
+			}
 			console.log(options);
 			
 			var req = http.request(options, function(res) {
