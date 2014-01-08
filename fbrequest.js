@@ -24,11 +24,12 @@ function Request(auth, pathname) {
 	klass.prototype.exec = function(action, body, finish) {
 		var pathtrail = path.normalize(action).replace(/^\/|\/$/g, '').split('/');
 		var apiMethod = pathtrail.join('.');
+		// console.log('path and api method is', pathtrail, apiMethod);
 		var self = this,
 			domain = util.format(endpoint, this.subdomain),
 			conv = new Converter.Converter(),
 			request = conv.stripAttributes(body);
-
+		// console.log('turning json into xml for fb.com', body, apiMethod);
 		request['@'] = {method: apiMethod};
 
 		conv.on('toXML', function(err, xml) {
@@ -47,7 +48,7 @@ function Request(auth, pathname) {
 			} else if (self.authType == "OAuth") {
 				options.headers['Authorization'] = self.authHeader;
 			}
-			console.log(options);
+			// console.log('making fb request', options, xml);
 			
 			var req = http.request(options, function(res) {
 				//console.log('STATUS: ' + res.statusCode);
@@ -58,6 +59,7 @@ function Request(auth, pathname) {
 					rtrn_body += chunk;
 				});
 				res.on('end', function() {
+					// console.log('yay were ending', res.statusCode, rtrn_body);
 					Converter.Converter.XMLtoJSON(rtrn_body, function(err, json) {
 						finish(res.statusCode, JSON.stringify(json));
 					});
